@@ -1,4 +1,4 @@
-ce2a68fae6e54d744e163358a8f6afca *DESCRIPTION
+3949927dd8b7265566e201e6b9002645 *DESCRIPTION
 7a30856cdb7e752d64265b32a0922f6f *LICENSE
 80fe96b898c66927f559d6c735ccb69b *NAMESPACE
 d0ac3f64a2eca6210f1474256e10ace3 *R/RcppExports.R
@@ -7,7 +7,7 @@ a6e4d214e935942375020ce61e8ada19 *R/ngram-tokenizers.R
 6579d923b75bde698af9c0f4fedf6287 *R/stem-tokenizers.R
 476627759855a121486f6773b4e1795a *R/tokenizers-package.r
 10c197c77a5fe27695932dde918456de *R/utils.R
-b3e853863e4773992cea2577b671c3cb *README.md
+4f1767b45fdd4384a2193e374eaa6aa9 *README.md
 4b370e97f5104ffebe37108982ac0cd1 *inst/extdata/moby-ch1.txt
 6c8bd3a896047bcefc012014bc50ec30 *inst/extdata/moby-ch2.txt
 4918dc776f7f311580d63698b6bdc859 *inst/extdata/moby-ch3.txt
@@ -21,8 +21,8 @@ e3d3cb360fbfdb3c6974e14eb5f09870 *src/Makevars.win
 365aa88c4457d20e32527a8c28ab1851 *src/shingle_ngrams.cpp
 c87bf816f07ad4750a23216488b60301 *src/skip_ngrams.cpp
 c0953a311f15601701b91fb4f8945fa0 *tests/testthat.R
-76370e075974755923fe8f743723eb33 *tests/testthat/data-for-tests.R
-0bbcfc06bca8bd9929df52546d4bb4f2 *tests/testthat/test-basic.R
-5a9b73ad84f744ff491243b4831624fe *tests/testthat/test-ngrams.R
-57636ee8078a938410a5f4774b7bc53a *tests/testthat/test-stem.R
-b57442ae99003119775ac43bdd83dccb *tests/testthat/test-utils.R
+ea7b7b0fef2767f7774a9047021eb99a *tests/testthat/data-for-tests.R
+cc7be73bbd90e8e4980df2de2f59a894 *tests/testthat/test-basic.R
+1a2d7cda6da547f2f69b8feb51dda58b *tests/testthat/test-ngrams.R
+5754918d2f4127098416491abfb37577 *tests/testthat/test-stem.R
+ca2ab6110e804079d30e7f310cb40bfe *tests/testthat/test-utils.R
