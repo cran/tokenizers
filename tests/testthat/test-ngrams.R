@@ -1,7 +1,5 @@
 context("N-gram tokenizers")
 
-source("data-for-tests.R")
-
 test_that("Shingled n-gram tokenizer works as expected", {
   stopwords <- c("chapter", "me")
   out_l <- tokenize_ngrams(docs_l, n = 3, n_min = 2, stopwords = stopwords)
@@ -18,6 +16,10 @@ test_that("Shingled n-gram tokenizer works as expected", {
   expect_identical(out_l, out_c)
   expect_identical(out_l[[1]], out_1)
   expect_identical(out_c[[1]], out_1)
+
+  # test for https://github.com/lmullen/tokenizers/issues/14
+  expect_identical(tokenize_ngrams("one two three", n = 3, n_min = 2),
+                   tokenize_ngrams("one two three", n = 5, n_min = 2))
 
   expect_named(out_l, names(docs_l))
   expect_named(out_c, names(docs_c))
