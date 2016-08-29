@@ -17,10 +17,6 @@
 #' These functions will strip all punctuation and normalize all whitespace to a
 #' single space character.
 #'
-#' @return A list of character vectors containing the tokens, with one element
-#'   in the list for each element that was passed as input. If `simplify = TRUE`
-#'   and only a single element was passed as input, then the output is a
-#'   character vector of tokens.
 #' @param x A character vector or a list of character vectors to be tokenized
 #'   into n-grams. If \code{x} is a character vector, it can be of any length,
 #'   and each element will be tokenized separately. If \code{x} is a list of
@@ -40,6 +36,12 @@
 #'   returned regardless of length of input. If \code{TRUE}, then an input with
 #'   a single element will return a character vector of tokens instead of a
 #'   list.
+#'
+#' @return A list of character vectors containing the tokens, with one element
+#'   in the list for each element that was passed as input. If \code{simplify =
+#'   TRUE} and only a single element was passed as input, then the output is a
+#'   character vector of tokens.
+#'
 #' @examples
 #' song <-  paste0("How many roads must a man walk down\n",
 #'                 "Before you call him a man?\n",
@@ -64,7 +66,7 @@ tokenize_ngrams <- function(x, lowercase = TRUE, n = 3L, n_min = n,
   check_input(x)
   named <- names(x)
   if (n < n_min || n_min <= 0)
-    stop("n and n-gram min must be integers, and ngram_min must be less than ",
+    stop("n and n_min must be integers, and n_min must be less than ",
          "n and greater than 1.")
   words <- tokenize_words(x, lowercase = lowercase)
   out <- generate_ngrams_batch(words, ngram_min = n_min, ngram_max = n,

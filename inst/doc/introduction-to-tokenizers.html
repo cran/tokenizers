@@ -12,7 +12,7 @@
 
 <meta name="author" content="Lincoln Mullen" />
 
-<meta name="date" content="2016-08-18" />
+<meta name="date" content="2016-08-29" />
 
 <title>Introduction to the tokenizers Package</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to the tokenizers Package</h1>
 <h4 class="author"><em>Lincoln Mullen</em></h4>
-<h4 class="date"><em>2016-08-18</em></h4>
+<h4 class="date"><em>2016-08-29</em></h4>
 
 
 
@@ -105,6 +105,10 @@ james &lt;-<span class="st"> </span><span class="kw">paste0</span>(
 <pre><code>##  [1] &quot;t&quot; &quot;h&quot; &quot;e&quot; &quot;q&quot; &quot;u&quot; &quot;e&quot; &quot;s&quot; &quot;t&quot; &quot;i&quot; &quot;o&quot; &quot;n&quot; &quot;t&quot; &quot;h&quot; &quot;u&quot; &quot;s&quot; &quot;b&quot; &quot;e&quot;
 ## [18] &quot;c&quot; &quot;o&quot; &quot;m&quot; &quot;e&quot; &quot;s&quot; &quot;a&quot; &quot;v&quot; &quot;e&quot;
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 517 entries ]</code></pre>
+<p>You can also tokenize character-based shingles.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tokenize_character_shingles</span>(james, <span class="dt">strip_non_alphanum =</span> <span class="ot">FALSE</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>:<span class="dv">20</span>]</code></pre></div>
+<pre><code>##  [1] &quot;the&quot; &quot;he &quot; &quot;e q&quot; &quot; qu&quot; &quot;que&quot; &quot;ues&quot; &quot;est&quot; &quot;sti&quot; &quot;tio&quot; &quot;ion&quot; &quot;on &quot;
+## [12] &quot;n t&quot; &quot; th&quot; &quot;thu&quot; &quot;hus&quot; &quot;us &quot; &quot;s b&quot; &quot; be&quot; &quot;bec&quot; &quot;eco&quot;</code></pre>
 </div>
 <div id="words-and-word-stems" class="section level3">
 <h3>Words and word stems</h3>
