@@ -60,29 +60,129 @@
 
 #' @export
 #' @rdname ngram-tokenizers
-tokenize_ngrams <- function(x, lowercase = TRUE, n = 3L, n_min = n,
-                            stopwords = character(), ngram_delim = " ",
+tokenize_ngrams <- function(x,
+                            lowercase = TRUE,
+                            n = 3L,
+                            n_min = n,
+                            stopwords = character(),
+                            ngram_delim = " ",
                             simplify = FALSE) {
-  check_input(x)
-  named <- names(x)
-  if (n < n_min || n_min <= 0)
-    stop("n and n_min must be integers, and n_min must be less than ",
-         "n and greater than 1.")
-  words <- tokenize_words(x, lowercase = lowercase)
-  out <- generate_ngrams_batch(words, ngram_min = n_min, ngram_max = n,
-                               stopwords = stopwords, ngram_delim = ngram_delim)
-  if (!is.null(named)) names(out) <- named
-  simplify_list(out, simplify)
+  UseMethod("tokenize_ngrams")
+}
+
+#' @export
+tokenize_ngrams.data.frame <-
+  function(x,
+           lowercase = TRUE,
+           n = 3L,
+           n_min = n,
+           stopwords = character(),
+           ngram_delim = " ",
+           simplify = FALSE) {
+    x <- corpus_df_as_corpus_vector(x)
+    tokenize_ngrams(x, lowercase, n, n_min, stopwords, ngram_delim, simplify)
+  }
+
+#' @export
+tokenize_ngrams.default <-
+  function(x,
+           lowercase = TRUE,
+           n = 3L,
+           n_min = n,
+           stopwords = character(),
+           ngram_delim = " ",
+           simplify = FALSE) {
+    check_input(x)
+    named <- names(x)
+    if (n < n_min || n_min <= 0)
+      stop("n and n_min must be integers, and n_min must be less than ",
+           "n and greater than 1.")
+    words <- tokenize_words(x, lowercase = lowercase)
+    out <-
+      generate_ngrams_batch(
+        words,
+        ngram_min = n_min,
+        ngram_max = n,
+        stopwords = stopwords,
+        ngram_delim = ngram_delim
+      )
+    if (!is.null(named))
+      names(out) <- named
+    simplify_list(out, simplify)
+  }
+
+# Check the skip distance between words, and return FALSE if the skip is bigger
+# than k
+check_width <- function(v, k) {
+  v_lead <- c(v[2:length(v)], NA_integer_)
+  all(v_lead - v - 1 <= k, na.rm = TRUE)
+}
+
+get_valid_skips <- function(n, k) {
+  max_dist <- k * (n - 1) + (n - 1)
+  total_combinations <- choose(max_dist, n - 1)
+  if (total_combinations > 5e3){
+    warning("Input n and k will produce a very large number of skip n-grams")
+  }
+
+  # Generate all possible combinations up to the maximum distance
+  positions <- utils::combn(max_dist, n - 1, simplify = FALSE)
+
+  # Prepend 0 to represent position of starting word. Use 0 indexed vectors
+  # because these vectors go to Rcpp.
+  positions <- lapply(positions, function(v) { c(0, v) })
+
+  # Keep only the combination of positions with the correct skip between words
+  keepers <- vapply(positions, check_width, logical(1), k)
+  positions[keepers]
 }
 
 #' @export
 #' @rdname ngram-tokenizers
-tokenize_skip_ngrams <- function(x, lowercase = TRUE, n = 3, k = 1,
-                                 simplify = FALSE) {
-  check_input(x)
-  named <- names(x)
-  words <- tokenize_words(x, lowercase = lowercase)
-  out <- lapply(words, skip_ngrams, n = n, k = k)
-  if (!is.null(named)) names(out) <- named
-  simplify_list(out, simplify)
-}
+tokenize_skip_ngrams <-
+  function(x,
+           lowercase = TRUE,
+           n_min = 1,
+           n = 3,
+           k = 1,
+           stopwords = character(),
+           simplify = FALSE) {
+    UseMethod("tokenize_skip_ngrams")
+  }
+
+#' @export
+tokenize_skip_ngrams.data.frame <-
+  function(x,
+           lowercase = TRUE,
+           n_min = 1,
+           n = 3,
+           k = 1,
+           stopwords = character(),
+           simplify = FALSE) {
+    x <- corpus_df_as_corpus_vector(x)
+    tokenize_skip_ngrams(x, lowercase, n_min, n, k, stopwords, simplify)
+
+  }
+
+#' @export
+tokenize_skip_ngrams.default <-
+  function(x,
+           lowercase = TRUE,
+           n_min = 1,
+           n = 3,
+           k = 1,
+           stopwords = character(),
+           simplify = FALSE) {
+    check_input(x)
+    named <- names(x)
+    words <- tokenize_words(x, lowercase = lowercase)
+    skips <- unique(unlist(
+      lapply(n_min:n, get_valid_skips, k),
+      recursive = FALSE,
+      use.names = FALSE
+    ))
+    out <- skip_ngrams_vectorised(words, skips, stopwords)
+    if (!is.null(named))
+      names(out) <- named
+    simplify_list(out, simplify)
+  }
