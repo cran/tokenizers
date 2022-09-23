@@ -23,8 +23,8 @@
 #'   character vectors, each element of the list should have a length of 1.
 #' @param n The number of words in the n-gram. This must be an integer greater
 #'   than or equal to 1.
-#' @param n_min This must be an integer greater than or equal to 1, and less
-#'   than or equal to \code{n}.
+#' @param n_min The minimum number of words in the n-gram. This must be an
+#'   integer greater than or equal to 1, and less than or equal to \code{n}.
 #' @param k For the skip n-gram tokenizer, the maximum skip distance between
 #'   words. The function will compute all skip n-grams between \code{0} and
 #'   \code{k}.
@@ -121,7 +121,7 @@ check_width <- function(v, k) {
 get_valid_skips <- function(n, k) {
   max_dist <- k * (n - 1) + (n - 1)
   total_combinations <- choose(max_dist, n - 1)
-  if (total_combinations > 5e3){
+  if (total_combinations > 5e3) {
     warning("Input n and k will produce a very large number of skip n-grams")
   }
 

@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # Named list
 (corpus_l <- list(man_comes_around = "There's a man goin' 'round takin' names",
                   wont_back_down = "Well I won't back down, no I won't back down",
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 (corpus_d <- data.frame(doc_id = names(corpus_c), text = unname(corpus_c),
                         stringsAsFactors = FALSE))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(tokenizers)
 
 tokens_l <- tokenize_ngrams(corpus_l, n = 2)
@@ -29,10 +29,10 @@ all(identical(tokens_l, tokens_c),
     identical(tokens_c, tokens_d),
     identical(tokens_l, tokens_d))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 tokens_l
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 sample_tokens_df <- structure(list(doc_id = c("man_comes_around", "man_comes_around", 
 "man_comes_around", "man_comes_around", "man_comes_around", "man_comes_around", 
 "wont_back_down", "wont_back_down", "wont_back_down", "wont_back_down", 

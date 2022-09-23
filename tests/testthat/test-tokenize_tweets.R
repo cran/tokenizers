@@ -72,3 +72,32 @@ test_that("punctuation as part of tweets can preserved", {
          t2 = c("@rOpenSci", "See", "you", "at", "UseR"))
   )
 })
+
+test_that("tokenizing a single word works", {
+  expect_equal(tokenize_tweets("Word!", simplify = TRUE), c("word"))
+  expect_equal(tokenize_tweets(list(a = "Hello!", b = "Good day!")),
+               list(a = "hello", b = c("good", "day")))
+  expect_equal(tokenize_tweets(list(a = "Good day!", b = "Hello!")),
+               list(a = c("good", "day"), b = "hello"))
+})
+
+
+test_that("stopwords removal works the same as with tokenize_words", {
+  txt <- c(d1 = "i'm happy!")
+  stopwords <- "i'm"
+  expect_identical(
+    tokenize_words(txt, stopwords = c("i'm"), strip_punct = TRUE),
+    tokenize_tweets(txt, stopwords = c("i'm"), strip_punct = TRUE)
+  )
+  expect_identical(
+    tokenize_words(txt, stopwords = c("i'm"), strip_punct = FALSE),
+    tokenize_tweets(txt, stopwords = c("i'm"), strip_punct = FALSE)
+  )
+})
+
+test_that("tokenizing non-space-separated language works", {
+  expect_equal(
+    tokenize_tweets("\u4ECA\u65E5\u3082\u3088\u3044\u5929\u6C17\u3002", simplify = TRUE),
+    c("\u4ECA\u65E5", "\u3082", "\u3088\u3044", "\u5929\u6C17")
+  )
+})
