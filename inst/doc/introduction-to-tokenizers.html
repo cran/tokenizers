@@ -496,26 +496,16 @@ desired. Note that the number of tokens returned can be very large.</p>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;question becomes one knowledge&quot;   </span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 6083 entries ]</span></span></code></pre></div>
 </div>
-<div id="tweet-tokenizer" class="section level2">
-<h2>Tweet tokenizer</h2>
-<p>Tokenizing tweets requires special attention, since usernames
-(<code>@whoever</code>) and hashtags (<code>#hashtag</code>) use special
-characters that might otherwise be stripped away.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_tweets</span>(<span class="st">&quot;Welcome, @user, to the tokenizers package. #rstats #forever&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;welcome&quot;    &quot;@user&quot;      &quot;to&quot;         &quot;the&quot;        &quot;tokenizers&quot;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;package&quot;    &quot;#rstats&quot;    &quot;#forever&quot;</span></span></code></pre></div>
-</div>
 <div id="sentence-and-paragraph-tokenizers" class="section level2">
 <h2>Sentence and paragraph tokenizers</h2>
 <p>Sometimes it is desirable to split texts into sentences or paragraphs
 prior to tokenizing into other forms.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_sentences</span>(james) </span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_sentences</span>(james) </span></code></pre></div>
 <pre><code>#&gt; [[1]]
 #&gt; [1] &quot;The question thus becomes a verbal one again; and our knowledge of all these early stages of thought and feeling is in any case so conjectural and imperfect that farther discussion would not be worth while.&quot;                                               
 #&gt; [2] &quot;Religion, therefore, as I now ask you arbitrarily to take it, shall mean for us _the feelings, acts, and experiences of individual men in their solitude, so far as they apprehend themselves to stand in relation to whatever they may consider the divine_.&quot;
 #&gt; [3] &quot;Since the relation may be either moral, physical, or ritual, it is evident that out of religion in the sense in which we take it, theologies, philosophies, and ecclesiastical organizations may secondarily grow.&quot;</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_paragraphs</span>(james)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_paragraphs</span>(james)</span></code></pre></div>
 <pre><code>#&gt; [[1]]
 #&gt; [1] &quot;The question thus becomes a verbal one again; and our knowledge of all these early stages of thought and feeling is in any case so conjectural and imperfect that farther discussion would not be worth while.&quot;                                                                                                                                                                                                                                                                   
 #&gt; [2] &quot;Religion, therefore, as I now ask you arbitrarily to take it, shall mean for us _the feelings, acts, and experiences of individual men in their solitude, so far as they apprehend themselves to stand in relation to whatever they may consider the divine_. Since the relation may be either moral, physical, or ritual, it is evident that out of religion in the sense in which we take it, theologies, philosophies, and ecclesiastical organizations may secondarily grow. &quot;</code></pre>
@@ -526,46 +516,46 @@ prior to tokenizing into other forms.</p>
 the document into smaller chunks, each with the same length. This
 function chunks a document and gives it each of the chunks an ID to show
 their order. These chunks can then be further tokenized.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>chunks <span class="ot">&lt;-</span> <span class="fu">chunk_text</span>(mobydick, <span class="at">chunk_size =</span> <span class="dv">100</span>, <span class="at">doc_id =</span> <span class="st">&quot;mobydick&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(chunks)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2195</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>chunks[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0005`</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;of a poor devil of a sub sub appears to have gone through the long vaticans and street stalls of the earth picking up whatever random allusions to whales he could anyways find in any book whatsoever sacred or profane therefore you must not in every case at least take the higgledy piggledy whale statements however authentic in these extracts for veritable gospel cetology far from it as touching the ancient authors generally as well as the poets here appearing these extracts are solely valuable or entertaining as affording a glancing bird&#39;s eye view of what has been promiscuously said&quot;</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0006`</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;thought fancied and sung of leviathan by many nations and generations including our own so fare thee well poor devil of a sub sub whose commentator i am thou belongest to that hopeless sallow tribe which no wine of this world will ever warm and for whom even pale sherry would be too rosy strong but with whom one sometimes loves to sit and feel poor devilish too and grow convivial upon tears and say to them bluntly with full eyes and empty glasses and in not altogether unpleasant sadness give it up sub subs for by how much the&quot;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_words</span>(chunks[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>])</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0005`</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;of&quot;       &quot;a&quot;        &quot;poor&quot;     &quot;devil&quot;    &quot;of&quot;       &quot;a&quot;       </span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;sub&quot;      &quot;sub&quot;      &quot;appears&quot;  &quot;to&quot;       &quot;have&quot;     &quot;gone&quot;    </span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;through&quot;  &quot;the&quot;      &quot;long&quot;     &quot;vaticans&quot; &quot;and&quot;      &quot;street&quot;  </span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;stalls&quot;   &quot;of&quot;       &quot;the&quot;      &quot;earth&quot;    &quot;picking&quot;  &quot;up&quot;      </span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;whatever&quot;</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 75 entries ]</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0006`</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;thought&quot;     &quot;fancied&quot;     &quot;and&quot;         &quot;sung&quot;        &quot;of&quot;         </span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;leviathan&quot;   &quot;by&quot;          &quot;many&quot;        &quot;nations&quot;     &quot;and&quot;        </span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;generations&quot; &quot;including&quot;   &quot;our&quot;         &quot;own&quot;         &quot;so&quot;         </span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] &quot;fare&quot;        &quot;thee&quot;        &quot;well&quot;        &quot;poor&quot;        &quot;devil&quot;      </span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] &quot;of&quot;          &quot;a&quot;           &quot;sub&quot;         &quot;sub&quot;         &quot;whose&quot;      </span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 75 entries ]</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>chunks <span class="ot">&lt;-</span> <span class="fu">chunk_text</span>(mobydick, <span class="at">chunk_size =</span> <span class="dv">100</span>, <span class="at">doc_id =</span> <span class="st">&quot;mobydick&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(chunks)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2195</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>chunks[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0005`</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;of a poor devil of a sub sub appears to have gone through the long vaticans and street stalls of the earth picking up whatever random allusions to whales he could anyways find in any book whatsoever sacred or profane therefore you must not in every case at least take the higgledy piggledy whale statements however authentic in these extracts for veritable gospel cetology far from it as touching the ancient authors generally as well as the poets here appearing these extracts are solely valuable or entertaining as affording a glancing bird&#39;s eye view of what has been promiscuously said&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0006`</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;thought fancied and sung of leviathan by many nations and generations including our own so fare thee well poor devil of a sub sub whose commentator i am thou belongest to that hopeless sallow tribe which no wine of this world will ever warm and for whom even pale sherry would be too rosy strong but with whom one sometimes loves to sit and feel poor devilish too and grow convivial upon tears and say to them bluntly with full eyes and empty glasses and in not altogether unpleasant sadness give it up sub subs for by how much the&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tokenize_words</span>(chunks[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>])</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0005`</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;of&quot;       &quot;a&quot;        &quot;poor&quot;     &quot;devil&quot;    &quot;of&quot;       &quot;a&quot;       </span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;sub&quot;      &quot;sub&quot;      &quot;appears&quot;  &quot;to&quot;       &quot;have&quot;     &quot;gone&quot;    </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;through&quot;  &quot;the&quot;      &quot;long&quot;     &quot;vaticans&quot; &quot;and&quot;      &quot;street&quot;  </span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;stalls&quot;   &quot;of&quot;       &quot;the&quot;      &quot;earth&quot;    &quot;picking&quot;  &quot;up&quot;      </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;whatever&quot;</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 75 entries ]</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $`mobydick-0006`</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;thought&quot;     &quot;fancied&quot;     &quot;and&quot;         &quot;sung&quot;        &quot;of&quot;         </span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;leviathan&quot;   &quot;by&quot;          &quot;many&quot;        &quot;nations&quot;     &quot;and&quot;        </span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;generations&quot; &quot;including&quot;   &quot;our&quot;         &quot;own&quot;         &quot;so&quot;         </span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] &quot;fare&quot;        &quot;thee&quot;        &quot;well&quot;        &quot;poor&quot;        &quot;devil&quot;      </span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] &quot;of&quot;          &quot;a&quot;           &quot;sub&quot;         &quot;sub&quot;         &quot;whose&quot;      </span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 75 entries ]</span></span></code></pre></div>
 </div>
 <div id="counting-words-characters-sentences" class="section level2">
 <h2>Counting words, characters, sentences</h2>
 <p>The package also offers functions for counting words, characters, and
 sentences in a format which works nicely with the rest of the
 functions.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count_words</span>(mobydick)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   219415</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count_characters</span>(mobydick)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1235185</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">count_sentences</span>(mobydick)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    29076</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count_words</span>(mobydick)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   219415</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count_characters</span>(mobydick)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1235185</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">count_sentences</span>(mobydick)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mobydick </span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    29076</span></span></code></pre></div>
 </div>
 
 
